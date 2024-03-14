@@ -1,23 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import React from'react';
+
+import ProfileSearch from './ProfileSearch';
+import ProfileDisplay from './ProfileDisplay';
 
 function App() {
+  const [userData, setUserData] = React.useState(null)
+const handleSearch = async (user) => {
+  const res = await fetch(`https://api.github.com/users/${user}`)
+  const data = await res.json()
+  setUserData(data)
+}
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+ <h1 className="d-flex justify-content-center"> GitHub Profile Search App</h1>
+ <ProfileSearch handleSearch={handleSearch} />
+ {userData && <ProfileDisplay data={userData} /> }
     </div>
   );
 }
